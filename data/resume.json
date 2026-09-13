@@ -1,0 +1,103 @@
+{
+  "name": "Shreyansh Yadav",
+  "summary": "AI-focused self-taught backend engineer with hands-on experience in Python, Machine Learning, LLM, and data-driven application development.",
+  "skills": [
+    "Python",
+    "SQL",
+    "Machine Learning",
+    "RAG",
+    "LLMs",
+    "Exploratory Data Analysis",
+    "NLP",
+    "FastAPI",
+    "Pandas",
+    "NumPy",
+    "Matplotlib",
+    "Seaborn",
+    "Scikit-learn",
+    "Git",
+    "GitHub",
+    "OOPs",
+    "Data Structures & Algorithms",
+    "Operating Systems"
+  ],
+  "experience": [
+    {
+      "title": "Freelance Developer",
+      "company": "Shramly",
+      "location": "Remote",
+      "start_date": "Apr 2026",
+      "end_date": "Jun 2026",
+      "bullets": [
+        "Integrated an AI-powered chatbot using the OpenAI API to assist workers during the platform registration process.",
+        "Used AI-assisted coding tools (GitHub Copilot) throughout development to accelerate iteration and debugging.",
+        "Developed and tested 15+ chatbot interaction scenarios to handle common registration questions and provide real-time responses."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "DocuMind (RAG Document Assistant)",
+      "description": "Built to understand how RAG systems work in practice, tackling the real problem of manually digging through long documents to find one answer.",
+      "technologies": [
+        "Python",
+        "LangChain",
+        "ChromaDB",
+        "APIs"
+      ],
+      "bullets": [
+        "Made it flexible — works across 5+ formats (PDF, DOCX, TXT, Markdown, URLs) with 3 AI providers to choose from.",
+        "Result: a working tool that pulls answers directly from any document, cutting search time from minutes to seconds."
+      ]
+    },
+    {
+      "name": "Cardio-Risk ML Model",
+      "description": "Built to get hands-on with the full ML pipeline — from raw data to a working prediction model.",
+      "technologies": [
+        "Python",
+        "Scikit-Learn",
+        "Streamlit Community Cloud",
+        "Pandas",
+        "Matplotlib",
+        "Seaborn"
+      ],
+      "bullets": [
+        "Studied 1000+ clinical records (age, cholesterol, BP, lifestyle) for spotting heart disease risk early using data instead of guesswork.",
+        "Result: model flags risk with 88% accuracy, deployed as a web app for quick risk assessment."
+      ]
+    },
+    {
+      "name": "Expense Tracker",
+      "description": "Built a personal expense-tracking tool to solve a real problem: manually reviewing bank statements was slow and easy to lose track of.",
+      "technologies": [
+        "Python",
+        "CSV",
+        "Matplotlib"
+      ],
+      "bullets": [
+        "Used it to log and analyze 1000+ transactions/month, surfacing spending patterns through visual summaries.",
+        "Result: helped cut recurring/avoidable expenses by 15% by making overspending categories visible at a glance."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.Tech in Information Technology (76%)",
+      "institute": "Ajay Kumar Garg Engineering College",
+      "location": "Ghaziabad, UP",
+      "year": "2022-2026"
+    },
+    {
+      "degree": "Class XII (CBSE Board) — 94.6%",
+      "institute": "Maa Durga Ji Sr. Sec. Vidyalaya",
+      "location": "Jaunpur, UP",
+      "year": "2020-2021"
+    },
+    {
+      "degree": "Class X (CBSE Board) — 95.6%",
+      "institute": "Maa Durga Ji Sr. Sec. Vidyalaya",
+      "location": "Jaunpur, UP",
+      "year": "2018-2019"
+    }
+  ]
+}

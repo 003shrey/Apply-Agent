@@ -1,0 +1,24 @@
+AI/Backend Engineer Intern
+
+We're looking for an intern to help build and ship AI-powered backend 
+features for our product.
+
+Responsibilities:
+- Build and maintain backend APIs using Python (FastAPI or similar)
+- Work with LLMs and retrieval-augmented generation (RAG) pipelines
+- Integrate third-party AI APIs (OpenAI, Anthropic, or similar) into 
+  production features
+- Perform exploratory data analysis and build simple ML models for 
+  internal tooling
+- Write clean, tested, maintainable code and collaborate with a small 
+  team
+
+Requirements:
+- Strong Python fundamentals, including OOP and data structures
+- Experience with LangChain, ChromaDB, or similar RAG tooling
+- Familiarity with Pandas, NumPy, and basic ML libraries (Scikit-learn)
+- Comfortable using Git/GitHub for version control
+- Bonus: experience deploying ML models or AI tools as web apps
+- Currently pursuing or recently completed a degree in Computer 
+  Science, IT, or related field
+EOF

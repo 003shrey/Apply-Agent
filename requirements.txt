@@ -1,0 +1,4 @@
+python-docx
+anthropic
+openai
+google-genai
