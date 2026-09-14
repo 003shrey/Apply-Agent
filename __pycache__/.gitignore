@@ -4,4 +4,4 @@ __pycache__/
 outputs/
 token.json
 credentials.json
-tracker.db
+data/tracker.db
