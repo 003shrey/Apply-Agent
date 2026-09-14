@@ -212,6 +212,7 @@ def add_contact(
     application_id: int,
     recruiter_name: str | None = None,
     recruiter_email: str | None = None,
+    email_sent_at: str | None = None,
     db_path: str | Path = DEFAULT_DB_PATH,
 ) -> int:
     """Log a recruiter contact against an existing application."""
@@ -234,11 +235,12 @@ def add_contact(
             INSERT INTO contacts (
                 application_id,
                 recruiter_name,
-                recruiter_email
+                recruiter_email,
+                email_sent_at
             )
-            VALUES (?, ?, ?)
+            VALUES (?, ?, ?, ?)
             """,
-            (application_id, recruiter_name, recruiter_email),
+            (application_id, recruiter_name, recruiter_email, email_sent_at),
         )
         connection.commit()
         return int(cursor.lastrowid)

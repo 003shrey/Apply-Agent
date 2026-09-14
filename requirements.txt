@@ -2,3 +2,5 @@ python-docx
 anthropic
 openai
 google-genai
+google-auth-oauthlib
+google-api-python-client
