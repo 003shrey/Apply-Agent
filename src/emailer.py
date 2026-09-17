@@ -76,7 +76,6 @@ def _prompt_for_edit(subject: str, body: str) -> tuple[str, str]:
     edited_subject = input("Subject: ").strip() or subject
     print(
         "\nEnter the edited body. Finish by entering a line containing only "
-        "'.END'. Leave the first line blank to keep the current body."
     )
     first_line = input("Body: ")
     if not first_line.strip():

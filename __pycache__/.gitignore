@@ -5,3 +5,4 @@ outputs/
 token.json
 credentials.json
 data/tracker.db
+!outputs/review_*.png
