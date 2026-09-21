@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="bg-white p-6 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">Single Cold Email</h2>
+        <form method="POST" action="{{ url_for('emails') }}" class="space-y-4">
+            <input type="hidden" name="type" value="single">
+            <div class="grid grid-cols-2 gap-2">
+                <input type="text" name="company" placeholder="Company" class="border p-2 rounded" required>
+                <input type="text" name="role" placeholder="Role" class="border p-2 rounded" required>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <input type="text" name="recruiter_name" placeholder="Recruiter Name" class="border p-2 rounded">
+                <input type="email" name="to_address" placeholder="Recruiter Email" class="border p-2 rounded" required>
+            </div>
+            <textarea name="jd_text" rows="5" placeholder="Job Description text..." class="w-full border p-2 rounded" required></textarea>
+            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded font-bold w-full">Draft Single Email</button>
+        </form>
+    </div>
+
+    <div class="bg-white p-6 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">Batch Processing</h2>
+        <p class="text-sm text-gray-600 mb-4">Paste unformatted notes (companies, recruiter names, emails, JD snippets). The LLM will parse them into explicit batch entries.</p>
+        <form method="POST" action="{{ url_for('emails') }}">
+            <input type="hidden" name="type" value="batch">
+            <textarea name="batch_text" rows="9" placeholder="Example:
+Google | SWE | recruiter@google.com
+Meta | Backend | hiring@meta.com" class="w-full border p-2 rounded mb-4" required></textarea>
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded font-bold w-full">Parse & Draft Batch</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

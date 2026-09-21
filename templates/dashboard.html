@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="bg-white p-6 rounded shadow">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Application Tracker</h1>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-gray-100 text-gray-700">
+                    <th class="p-3 border-b">ID</th>
+                    <th class="p-3 border-b">Company</th>
+                    <th class="p-3 border-b">Role</th>
+                    <th class="p-3 border-b">Status</th>
+                    <th class="p-3 border-b">Applied Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in applications %}
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="p-3">{{ app.id | default(app['id'] | default(app[0])) }}</td>
+                    <td class="p-3 font-semibold">{{ app.company | default(app['company'] | default(app[1])) }}</td>
+                    <td class="p-3">{{ app.role | default(app['role'] | default(app[2])) }}</td>
+                    <td class="p-3">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full uppercase">{{ app.status | default(app['status'] | default(app[6])) }}</span>
+                    </td>
+                    <td class="p-3 text-gray-500">{{ app.applied_at | default(app['applied_at'] | default(app[7])) }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="p-4 text-center text-gray-500">No applications tracked yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

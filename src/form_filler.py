@@ -1,9 +1,8 @@
-
-
 from __future__ import annotations
 
 import json
 import re
+import os
 from pathlib import Path
 from typing import Any
 
@@ -151,7 +150,8 @@ def fill_standard_fields(
         _fill(page, selectors["linkedin"], str(contact["linkedin"]).strip(), "linkedin")
 
     try:
-        page.locator(selectors["resume_upload"]).first.set_input_files(resume_file_path)
+        if resume_file_path and Path(resume_file_path).exists():
+            page.locator(selectors["resume_upload"]).first.set_input_files(resume_file_path)
     except Exception as exc:
         print(f"Warning: skipped resume upload: {exc}")
 
@@ -257,3 +257,39 @@ def run_form_fill(
             browser.close()
         if playwright_instance is not None:
             playwright_instance.stop()
+
+
+def run_form_fill_web(job_url: str, profile: dict) -> tuple[Any, Any, Any]:
+    """
+    Web-friendly wrapper that disables standard input blocking (no auto-submit risk)
+    and surfaces explicit Playwright display environment errors.
+    """
+    from playwright.sync_api import sync_playwright
+
+    # Pre-flight check for headless-unfriendly environments
+    if os.name == 'posix' and not os.environ.get('DISPLAY') and not os.environ.get('WAYLAND_DISPLAY'):
+        raise RuntimeError("No DISPLAY environment variable found. A real or virtual display is required.")
+         
+    try:
+        p = sync_playwright().start()
+        browser = p.chromium.launch(headless=False)
+        page = browser.new_page()
+        page.goto(job_url, wait_until="domcontentloaded")
+        
+        try:
+            platform = detect_platform(job_url)
+            # Default fallbacks since the web route doesn't track current jd_text or active tailored file path
+            fallback_resume_path = "outputs/tailored_resume.docx"
+            
+            fill_standard_fields(page, platform, profile, fallback_resume_path)
+            fill_free_text_questions(page, "", profile)
+        except UnsupportedPlatformError as e:
+            print(f"Platform detection failed or unsupported: {e}")
+            
+        take_review_screenshot(page, "web_review")
+        
+        # Explicitly returns the objects so they aren't garbage collected immediately,
+        # leaving the browser open for the user's manual review & submit click.
+        return p, browser, page
+    except Exception as e:
+        raise RuntimeError(f"Playwright display error: {str(e)}")
