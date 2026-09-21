@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white p-8 rounded shadow">
+    <h1 class="text-2xl font-bold mb-6">Tailor Resume</h1>
+    <form method="POST" action="{{ url_for('tailor_route') }}" class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block font-bold mb-1">Company</label>
+                <input type="text" name="company" class="w-full border p-2 rounded" required>
+            </div>
+            <div>
+                <label class="block font-bold mb-1">Role</label>
+                <input type="text" name="role" class="w-full border p-2 rounded" required>
+            </div>
+        </div>
+        <div>
+            <label class="block font-bold mb-1">Job Description</label>
+            <textarea name="jd_text" rows="8" class="w-full border p-2 rounded" placeholder="Paste full JD here..." required></textarea>
+        </div>
+        <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded font-bold">Generate Tailored Resume</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white p-8 rounded shadow">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Review Email Draft</h1>
+        <span class="text-sm text-gray-500 uppercase tracking-widest">{{ draft.company }} — {{ draft.role }}</span>
+    </div>
+    
+    <div class="mb-4">
+        <strong>To:</strong> {{ draft.to_address }}
+    </div>
+    
+    {% if editing %}
+    <form method="POST" action="{{ url_for('email_review', draft_id=draft.id) }}">
+        <input type="hidden" name="action" value="send">
+        <div class="mb-4">
+            <label class="block font-bold mb-2">Subject</label>
+            <input type="text" name="subject" value="{{ draft.subject }}" class="w-full border p-2 rounded">
+        </div>
+        <div class="mb-4">
+            <label class="block font-bold mb-2">Body</label>
+            <textarea name="body" rows="12" class="w-full border p-2 rounded">{{ draft.body }}</textarea>
+        </div>
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-bold">Send Edited Email</button>
+        <a href="{{ url_for('email_review', draft_id=draft.id) }}" class="ml-4 text-red-600 font-semibold hover:underline">Cancel Edit</a>
+    </form>
+    
+    {% else %}
+    <div class="mb-4 border-b pb-4">
+        <strong>Subject:</strong> <span class="text-gray-800">{{ draft.subject }}</span>
+    </div>
+    <div class="mb-8 whitespace-pre-wrap text-gray-800 bg-gray-50 p-6 rounded border">{{ draft.body }}</div>
+    
+    <div class="flex flex-wrap gap-4 mb-8 border-b pb-8">
+        <form method="POST" action="{{ url_for('email_review', draft_id=draft.id) }}" class="inline">
+            <button type="submit" name="action" value="send" class="bg-green-600 hover:bg-green-700 shadow text-white px-6 py-2 rounded font-bold transition">Send As-Is</button>
+            <button type="submit" name="action" value="edit" class="bg-yellow-500 text-white px-6 py-2 rounded font-bold transition">Edit Text</button>
+            <button type="submit" name="action" value="skip" class="bg-gray-300 text-gray-800 px-6 py-2 rounded font-bold transition">Skip / Trash</button>
+        </form>
+    </div>
+    
+    <div class="bg-indigo-50 p-6 rounded border border-indigo-100">
+        <h3 class="font-bold text-indigo-900 mb-2">Rewrite via AI</h3>
+        <form method="POST" action="{{ url_for('email_review', draft_id=draft.id) }}" class="flex gap-2">
+            <input type="text" name="instructions" placeholder="e.g. 'Make it shorter'" class="flex-grow border border-indigo-200 p-2 rounded" required>
+            <button type="submit" name="action" value="rewrite" class="bg-indigo-600 text-white px-6 py-2 rounded font-bold">Revise</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Batch Email Review Queue</h1>
+        <button id="approve-all-btn" class="bg-green-600 text-white px-8 py-3 rounded font-bold shadow">
+            Approve All Displayed
+        </button>
+    </div>
+    
+    <div id="batch-container" class="space-y-6 mb-12">
+        {% for draft in drafts %}
+        <div class="bg-white p-6 rounded shadow border-l-4 border-indigo-500 draft-card">
+            <div class="flex justify-between border-b pb-3 mb-4 items-center">
+                <h2 class="text-xl font-bold">{{ draft.company }} <span class="text-gray-400 font-normal">| {{ draft.role }}</span></h2>
+                <a href="{{ url_for('email_review', draft_id=draft.id) }}" class="text-blue-600 font-semibold hover:underline">Review / Edit Individually &rarr;</a>
+            </div>
+            <div class="text-sm mb-3">
+                <p><strong>To:</strong> {{ draft.to_address }}</p>
+                <p><strong>Subject:</strong> {{ draft.subject }}</p>
+            </div>
+            <div class="whitespace-pre-wrap text-sm text-gray-800 bg-gray-50 p-4 rounded">{{ draft.body }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("approve-all-btn");
+    btn.addEventListener("click", async () => {
+        if(!confirm("Are you absolutely sure you want to send all displayed emails as-is?")) return;
+        
+        btn.disabled = true;
+        btn.innerText = "Sending Queue...";
+        const draftIds = {{ drafts | map(attribute='id') | list | tojson }};
+        
+        for (const id of draftIds) {
+            try {
+                const formData = new FormData();
+                formData.append("action", "send");
+                await fetch(`/emails/review/${id}`, { method: 'POST', body: formData });
+            } catch (e) {
+                console.error(`Failed to send draft ${id}`, e);
+            }
+        }
+        window.location.href = "/";
+    });
+});
+</script>
+{% endblock %}

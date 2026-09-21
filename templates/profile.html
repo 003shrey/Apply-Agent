@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="bg-white p-6 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">Upload File</h2>
+        <p class="text-sm text-gray-600 mb-4">Extract structured JSON strictly from your existing PDF, DOCX, or TXT file using the LLM.</p>
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('profile_setup') }}">
+            <input type="file" name="file" accept=".pdf,.docx,.txt" class="mb-4 block w-full border p-2 rounded" required>
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded font-bold w-full">Extract Profile</button>
+        </form>
+    </div>
+    
+    <div class="bg-white p-6 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">Manual Entry</h2>
+        <form method="POST" action="{{ url_for('profile_setup') }}" class="space-y-4">
+            <div class="grid grid-cols-2 gap-2">
+                <input type="text" name="name" placeholder="Full Name" class="border p-2 rounded" required>
+                <input type="email" name="email" placeholder="Email" class="border p-2 rounded" required>
+            </div>
+            <textarea name="summary" placeholder="Brief Professional Summary" class="w-full border p-2 rounded"></textarea>
+            <input type="text" name="skills" placeholder="Skills (comma separated)" class="w-full border p-2 rounded">
+            
+            <div class="border-t pt-4">
+                <h3 class="text-sm font-bold text-gray-500 uppercase mb-2">Most Recent Experience</h3>
+                <input type="text" name="exp_title" placeholder="Job Title" class="w-full border p-2 rounded mb-2">
+                <input type="text" name="exp_company" placeholder="Company" class="w-full border p-2 rounded mb-2">
+                <textarea name="exp_bullets" placeholder="Bullet points" class="w-full border p-2 rounded"></textarea>
+            </div>
+            <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded font-bold w-full">Build Manual Profile</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

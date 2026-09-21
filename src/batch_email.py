@@ -4,11 +4,12 @@ from __future__ import annotations
 
 import json
 import re
+import uuid
 from datetime import datetime, timezone
 from typing import Any
 
 try:
-    from .db import add_contact, log_application
+    from .db import add_contact, log_application, update_status
     from .email_gen import (
         _parse_email_response,
         _strip_markdown_fences,
@@ -17,7 +18,7 @@ try:
     from .emailer import review_and_send, send_email
     from .llm_client import call_llm
 except ImportError:
-    from db import add_contact, log_application
+    from db import add_contact, log_application, update_status
     from email_gen import (
         _parse_email_response,
         _strip_markdown_fences,
@@ -329,3 +330,43 @@ def run_batch_review(
 
     _print_results(results)
     return results
+
+
+def process_batch_into_drafts_web(text: str, resume_json: dict) -> dict:
+    """
+    Web helper: Parses batch input, drafts emails, logs DB Drafts, 
+    and returns a structured dictionary for session rendering.
+    """
+    entries = parse_batch_input(text)
+    drafts = {}
+    for entry in entries:
+        company = entry.get('company', 'Unknown')
+        role = entry.get('role', 'Unknown')
+        jd_text = entry.get('jd_text', '')
+        recruiter = entry.get('recruiter_name', 'Hiring Team')
+        
+        draft_raw = generate_cold_email(jd_text, resume_json, recruiter)
+        
+        if isinstance(draft_raw, str):
+            parts = draft_raw.split('\n', 1)
+            subject = parts[0].replace('Subject:', '').strip() if len(parts) > 1 else f"Application for {role}"
+            body = parts[1].strip() if len(parts) > 1 else draft_raw
+        else:
+            subject = draft_raw.get('subject', f"Application for {role}")
+            body = draft_raw.get('body', '')
+
+        app_id = log_application(company, role, jd_text, "latest")
+        update_status(app_id, "Draft")
+        
+        draft_id = str(uuid.uuid4())
+        drafts[draft_id] = {
+            'id': draft_id,
+            'application_id': app_id,
+            'company': company,
+            'role': role,
+            'to_address': entry.get('recruiter_email', ''),
+            'subject': subject,
+            'body': body,
+            'jd_text': jd_text
+        }
+    return drafts

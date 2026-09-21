@@ -323,3 +323,24 @@ def is_profile_complete(profile: dict) -> tuple[bool, list[str]]:
         if not check(profile)
     ]
     return (len(missing) == 0, missing)
+
+
+def build_profile_manually_web(form_data: dict) -> dict:
+    """
+    Web-friendly mapper that turns plain form submission data into the resume JSON schema.
+    """
+    return {
+        "name": form_data.get("name", ""),
+        "summary": form_data.get("summary", ""),
+        "skills": [s.strip() for s in form_data.get("skills", "").split(",") if s.strip()],
+        "experience": [{"title": form_data.get("exp_title", ""), "company": form_data.get("exp_company", ""), "bullets": [form_data.get("exp_bullets", "")]}],
+        "projects": [{"name": form_data.get("proj_name", ""), "bullets": [form_data.get("proj_bullets", "")]}],
+        "education": [{"degree": form_data.get("edu_degree", ""), "institute": form_data.get("edu_inst", ""), "year": form_data.get("edu_year", "")}],
+        "contact": {
+            "email": form_data.get("email", ""),
+            "phone": form_data.get("phone", ""),
+            "linkedin": form_data.get("linkedin", ""),
+            "github": form_data.get("github", ""),
+            "location": form_data.get("location", "")
+        }
+    }
